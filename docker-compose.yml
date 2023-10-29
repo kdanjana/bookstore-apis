@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+   app:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    container_name: appc
+    volumes:
+      - ./bookstore:/app
+    command: >
+      bash -c "/scripts/run.sh"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=${DB_NAME}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - PORT=3306
+      - SECRET_KEY=${SECRET_KEY}
+      - DEBUG=${DEBUG}
+    depends_on:
+      - db
+
+   db:
+    image: mysql
+    container_name: dbc
+    volumes:
+      - bookstore-api-db-data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+
+volumes:
+   bookstore-api-db-data:
