@@ -9,8 +9,8 @@ services:
     container_name: appc
     volumes:
       - ./bookstore:/app
-    command: >
-      bash -c "/scripts/run.sh"
+    # command: >
+    #   bash -c "/scripts/run.sh"
     environment:
       - DB_HOST=db
       - DB_NAME=${DB_NAME}
